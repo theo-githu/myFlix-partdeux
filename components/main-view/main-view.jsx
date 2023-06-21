@@ -1,27 +1,52 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MovieCard } from "./movie-card/movie-card";
 import { MovieView } from "./movie-view/movie-view";
+import { LoginView } from "../login-view/login-view";
 
 export const MainView = () => {
-    const [movies, setMovies] = useState([
-        {
-            id: 1,
-            title: "Eloquent JavaScript",
-            image:
-              "https://images-na.ssl-images-amazon.com/images/I/51InjRPaF7L._SX377_BO1,204,203,200_.jpg",
-            author: "Marijn Haverbeke"
-        },
-        {
-            id: 2,
-            title: "Mastering JavaScript Functional Programming",
-            image:
-              "https://images-na.ssl-images-amazon.com/images/I/51WAikRq37L._SX218_BO1,204,203,200_QL40_FMwebp_.jpg",
-            author: "Federico Kereki"
-        }
-    ]);
-
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedToken = localStorage.getItem("token");
+    const [movies, setMovies] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState(null);
+    const [user, setUser ] = useState(null);
+    const [token, setToken] = useState(null);
+
+    useEffect(() => {
+        if(!token) return;
+        
+        fetch("https://movieflix-899d9c6c8969.herokuapp.com/movies", {
+            headers: {Authorization: `Bearer ${token}`},
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("movies from API:", data);
+            const moviesFromApi = data.map((movie) => {
+              return {
+                id: movie._id,
+                title: movie.Title,
+                image: movie.ImageURL,
+                description: movie.Description,
+                genre: movie.Genre.Name,
+                director: movie.Director.Name,
+                rating: movie.Rating
+              };
+            });
+    
+            setMovies(moviesFromApi);
+        });
+    }, [token]);
+
+    if (!user) {
+        return (
+            <LoginView 
+                onLoggedIn={(user, token) => {
+                    setUser(user);
+                    setToken(token);
+                }} 
+            />
+        );
+    }
 
     if (selectedMovie) {
         return (
@@ -37,16 +62,19 @@ export const MainView = () => {
     }
 
     return (
-        <div>
-            {movies.map((movie) => (
-                <MovieCard 
-                    key={movie.id} 
-                    movie={movie}
-                    onMovieClick={(newSelectedMovie) => {
-                        setSelectedMovie(newSelectedmovie);
-                    }}
-                />
-            ))}
-        </div>
+        <>
+            <div>
+                {movies.map((movie) => (
+                    <MovieCard 
+                        key={movie.id} 
+                        movie={movie}
+                        onMovieClick={(newSelectedMovie) => {
+                            setSelectedMovie(newSelectedmovie);
+                        }}
+                    />
+                ))}
+            </div>
+            <button onClick={() => { setUser(null); setToken(null); localStorage.clear(); }}>Logout</button>
+        </>
     );
 };
