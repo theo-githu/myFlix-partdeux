@@ -1,5 +1,68 @@
-$color: steelblue;
+//Variables
+$body-bg: #212529;
+$primary: Crimson;
+$secondary: Dimgrey;
+$font-size-base: 0.9rem;
 
-.my-flix {
-  color: $color;
+//Styling
+
+.desktop, .desktop-long {
+  display: inherit;
 }
+
+.movie_image {
+  width: 350px;
+}
+
+.mobile, .xs {
+  display: none;
+}
+
+.form-input {
+  background-color: whitesmoke;
+  color: whitesmoke;
+}
+
+//search engine
+.hide {
+  display:none
+}
+
+@media all and (max-width: 575px) {
+  .movie_image {
+    min-width: 120px;
+  }
+
+  .xs {
+    display: inherit;
+  }
+}
+
+@media all and (max-width: 390px) {
+  .desktop-long {
+    display: none
+  }
+}
+
+@media all and (max-width: 250px) {
+  * {
+    font-size: 0.8rem;
+  }
+
+  .desktop {
+    display: none;
+  }
+
+  .mobile {
+    display: inherit;
+  }
+}
+
+@media all and (min-width: 1400px) {
+  .movie_image {
+    width:500px;
+  }
+}
+
+//Import Bootstrap scss
+@import '~bootstrap/scss/bootstrap.scss';
