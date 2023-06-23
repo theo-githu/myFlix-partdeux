@@ -8,9 +8,10 @@ import { useEffect, useState } from "react";
 export const MovieView = ({ movie, user, token, updateUser }) => {
     const { movieId } = useParams();
 
-    const movie = movies.find(m => m._id === movieId);
+    const movie = movies.find((m) => movie._id === movieId);
 
-    const [isFavorite, setIsFavorite] = useState(user.favoriteMovies.includes(movie._id));
+    const [isFavorite, setIsFavorite] = useState(
+        user.favoriteMovies.includes(movie._id));
 
     useEffect(() => {
         setIsFavorite(user.favoriteMovies.includes(movie._id));
@@ -93,19 +94,13 @@ export const MovieView = ({ movie, user, token, updateUser }) => {
                 </Card.Text>
           </Card.Body>
           <Card.Footer className={"d-flex flex-row justify-content-between align-items-baseline mt-auto"}>
-          <Link to={`/`} className={"text-start"}>
-              <Button className="back-button" variant="primary" size="sm">Back</Button>
-          </Link>
-          {isFavorite ? 
-              <Button variant="danger" className="ms-2" onClick={removeFavorite}>Remove from favorites</Button>
-              : <Button variant="success" className="ms-2" onClick={addFavorite}>Add to favorites</Button>
-          }                   
-          <h3 className="mt-3 mb-3 text-light">Similar movies:</h3>
-          {similarMovies.map(movie => (
-              <Col className="mb-4" key={movie._id} xl={2} lg={3} md={4} xs={6}>
-                  <MovieCard movie={movie} />
-              </Col>
-          ))}
+            <Link to={`/`} className={"text-start"}>
+                <Button className="back-button" variant="primary" size="sm">Back</Button>
+            </Link>
+            {isFavorite ? 
+                <Button variant="danger" className="ms-2" onClick={removeFavorite}>Remove from favorites</Button>
+                : <Button variant="success" className="ms-2" onClick={addFavorite}>Add to favorites</Button>
+            }                   
           </Card.Footer>
         </Card>
       </Row>
