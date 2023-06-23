@@ -49,7 +49,6 @@ export const MainView = () => {
           <BrowserRouter>
                 <NavigationBar
                     user={user}
-                    movies={movies}
                     onLoggedOut={() => {
                         setUser(null);
                         setToken(null);
@@ -66,51 +65,51 @@ export const MainView = () => {
                                         <Navigate to="/" />
                                     ) : (
                                         <Col md={5}>
-                                        <SignupView/>
+                                            <SignupView/>
                                         </Col>
                                     )}
                                 </>
                             }
                         />
-                    <Route
-                        path="/login"
-                        element={
-                            <>
-                                {user ? (
-                                <Navigate to="/" />
-                                ) : (
-                                <Col md={5}>
-                                    <LoginView 
-                                        onLoggedIn={(user, token) => {
-                                        setUser(user);
-                                        setToken(token);
-                                        }} 
-                                    />
-                                </Col>
-                                )}
-                            </>
-                        }
+                        <Route
+                            path="/login"
+                            element={
+                                <>
+                                    {user ? (
+                                        <Navigate to="/" />
+                                    ) : (
+                                        <Col md={5}>
+                                            <LoginView 
+                                                onLoggedIn={(user, token) => {
+                                                setUser(user);
+                                                setToken(token);
+                                                }} 
+                                            />
+                                        </Col>
+                                    )}
+                                </>
+                            }
                         />
                         <Route
-                        path="/movies/:movieId"
-                        element={
-                            <>
-                                {!user ? (
-                                    <Navigate to="/login" replace />
-                                    ) : movies.length === 0 ? (
-                                    <Col>There are no movies</Col>
-                                    ) : (
-                                    <Col md={8}>
-                                        <MovieView 
-                                            movies={movies} 
-                                            user={user}
-                                            // token={token}
-                                            // updateUser={updateUser} 
-                                        />
-                                    </Col>
-                                )}
-                            </>
-                        }
+                            path="/movies/:movieId"
+                            element={
+                                <>
+                                    {!user ? (
+                                        <Navigate to="/login" replace />
+                                        ) : movies.length === 0 ? (
+                                        <Col>There are no movies</Col>
+                                        ) : (
+                                        <Col md={8}>
+                                            <MovieView 
+                                                movies={movies} 
+                                                user={user}
+                                                token={token}
+                                                // updateUser={updateUser} 
+                                            />
+                                        </Col>
+                                    )}
+                                </>
+                            }
                         />
                         <Route
                             path="/profile/"
@@ -123,7 +122,6 @@ export const MainView = () => {
                                         <ProfileView 
                                             user={user}
                                             token={token}
-                                            movies={movies}
                                             onLoggedOut={() => {
                                                 setUser(null);
                                                 setToken(null);
