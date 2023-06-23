@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap/Row";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import { MovieCard } from "./movie-card/movie-card";
-import { MovieView } from "./movie-view/movie-view";
+import { MovieCard } from "../movie-card/movie-card";
+import { MovieView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
 import { SignupView } from "../signup-view/signup-view";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
@@ -49,10 +49,11 @@ export const MainView = () => {
           <BrowserRouter>
                 <NavigationBar
                     user={user}
+                    movies={movies}
                     onLoggedOut={() => {
                         setUser(null);
-                        // setToken(null);
-                        // localStorage.clear();
+                        setToken(null);
+                        localStorage.clear();
                     }}
                 />
                 <Row className="justify-content-md-center"> 
@@ -100,26 +101,41 @@ export const MainView = () => {
                                     <Col>There are no movies</Col>
                                     ) : (
                                     <Col md={8}>
-                                        <MovieView movies={movies} user={user} />
+                                        <MovieView 
+                                            movies={movies} 
+                                            user={user}
+                                            // token={token}
+                                            // updateUser={updateUser} 
+                                        />
                                     </Col>
                                 )}
                             </>
                         }
                         />
-                        {/* <Route
-                        path="/profile/"
-                        element={
-                            <>
-                            {!user ? (
-                                <Navigate to="/login" replace />
-                            ) : (
-                                <Col>
-                                <ProfileView user={user} />
-                                </Col> 
-                            )}
-                            </>
-                        }
-                        /> */}
+                        <Route
+                            path="/profile/"
+                            element={
+                                <>
+                                {!user ? (
+                                    <Navigate to="/login" replace />
+                                ) : (
+                                    <Col>
+                                        <ProfileView 
+                                            user={user}
+                                            token={token}
+                                            movies={movies}
+                                            onLoggedOut={() => {
+                                                setUser(null);
+                                                setToken(null);
+                                                localStorage.clear();
+                                            }}
+                                            // updateUser={updateUser} //newly added   
+                                        />
+                                    </Col> 
+                                )}
+                                </>
+                            }
+                        />
                         <Route
                             path="/"
                             element={

@@ -12,10 +12,10 @@ export const SignupView = () => {
         event.preventDefault();
 
         const data = {
-            Username: username,
-            Password: password,
-            Email: email,
-            Birthday: birthday
+            username: username,
+            password: password,
+            email: email,
+            birthday: birthday
         };
       
         fetch("https://movieflix-899d9c6c8969.herokuapp.com/users", {

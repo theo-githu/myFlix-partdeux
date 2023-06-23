@@ -6,9 +6,9 @@ import { MovieCard } from "../movie-card/movie-card";
 import { useEffect, useState } from "react";
 
 export const MovieView = ({ movie, user, token, updateUser }) => {
-  const { movieId } = useParams();
+    const { movieId } = useParams();
+
     const movie = movies.find(m => m._id === movieId);
-    const similarMovies = movies.filter(movie => movie.Genre === movie.Genre ? true : false)
 
     const [isFavorite, setIsFavorite] = useState(user.favoriteMovies.includes(movie._id));
 

@@ -15,10 +15,10 @@ export const ProfileView = ({ user, token, movies, onLoggedOut, updateUser }) =>
         event.preventDefault();
 
         const data = {
-            Username: username,
-            Password: password,
-            Email: email,
-            Birthday: birthday
+            username: username,
+            password: password,
+            email: email,
+            birthday: birthday
         }
 
         fetch(`https://movieflix-899d9c6c8969.herokuapp.com/users/${user.username}`, {
@@ -141,7 +141,9 @@ export const ProfileView = ({ user, token, movies, onLoggedOut, updateUser }) =>
             </Col>
             {favoriteMovies.map(movie => (
                 <Col className="mb-4" key={movie._id} xl={2} lg={3} md={4} xs={6}>
-                    <MovieCard movie={movie} />
+                    <MovieCard 
+                        movie={movie}
+                        user={user} />
                 </Col>
             ))}
         </>
