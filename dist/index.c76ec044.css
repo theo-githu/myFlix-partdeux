@@ -1,73 +1,3 @@
-.movie-card {
-  cursor: pointer;
-  width: 100%;
-  min-width: 200px;
-  transition: all .2s ease-in-out;
-  position: relative;
-}
-
-.movie-card:hover {
-  transform: translateY(-10px);
-}
-
-.movie-card:before {
-  color: #fff;
-  opacity: 0;
-  background-color: #0009;
-  border-radius: 5px;
-  padding: 10px;
-  transition: all .3s;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%)scale(0);
-}
-
-.movie-card:hover:before {
-  opacity: .5;
-  transform: translate(-50%, -50%)scale(1);
-}
-
-.movie-card img {
-  object-fit: cover;
-  width: 100%;
-  height: auto;
-}
-
-.movie-card .card-body {
-  background-color: #f8f9fa;
-  border-top: 3px solid #dee2e6;
-  flex-direction: column;
-  display: flex;
-}
-
-.movie-card .card-title {
-  color: #212529;
-  font-size: 1.3rem;
-  font-weight: bold;
-}
-
-.movie-card .card-text-wrapper {
-  color: #6c757d;
-  text-decoration: none;
-}
-
-.back-button {
-  color: #f5f5f5;
-  background-color: #1e90ff;
-  border: none;
-  border-radius: 4px;
-  padding: 4px 12px;
-}
-
-.main-container {
-  justify-content: center;
-  align-items: center;
-  width: 250px;
-  padding-top: 200px;
-  display: flex;
-}
-
 .main-container {
   justify-content: center;
   align-items: center;
@@ -80,8 +10,9 @@ body {
   padding-top: 75px;
 }
 
-.my-flix {
-  color: #2183d3;
+body {
+  background-color: #f5f5f5;
+  min-height: 100vh;
 }
 
 :root, [data-bs-theme="light"] {
@@ -13419,4 +13350,4 @@ textarea.form-control-lg {
   }
 }
 
-/*# sourceMappingURL=index.e3f97e84.css.map */
+/*# sourceMappingURL=index.c76ec044.css.map */

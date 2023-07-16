@@ -2,12 +2,13 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+import './navigation-bar.scss';
+
 
 export const NavigationBar = ({ user, onLoggedOut }) => {
-  // fixed="top" instead of sticky?
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
+      <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
         <Container>
           <Navbar.Brand as={Link} to="/">
             myFlix
