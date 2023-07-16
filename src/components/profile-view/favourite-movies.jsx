@@ -1,38 +1,70 @@
-import React from "react";
-import { Row, Col, Card } from "react-bootstrap";
-
+import { useState, useEffect } from "react";
+import { Button, Col, Card, Link } from "react-bootstrap";
+import { ProfileView } from "../profile-view/profile-view";
 import { MovieCard } from "../movie-card/movie-card";
 
-export const FavouriteMovies = ({ user, favMovies }) => {
-    
-    const favouriteMovies = favMovies.map((movie) => {
-        return {
-            id: movie._id,
-            title: movie.Title,
-            image: movie.ImageURL,
-            description: movie.Description,
-            genre: movie.Genre,
-            director: movie.Director
-        };
-    });
+export const FavMovies = ({ user, movies }) => {
 
-    if (favouriteMovies.length === 0) {
-        return 
-            <Col>You don't have any favourite movies!</Col>
+    const storedToken = localStorage.getItem("token");
+    const storedMovies = JSON.parse(localStorage.getItem("movies"))
+    const storedUser = localStorage.getItem("user");
+
+    const [token] = useState(storedToken ? storedToken : null);
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [birthday, setBirthday] = useState("");
+    const [favoriteMovies, setFavoriteMovies] = useState([]);
+
+    const [allMovies] = useState(storedMovies ? storedMovies: movies);
+    const [filteredMovies, setFilteredMovies] = useState([]);
+    
+
+    // Show updated user on the profile
+    const getUser = (token) => {
+        fetch(`https://movieflix-899d9c6c8969.herokuapp.com/users/${user.Username}`, {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}`},
+        })
+        .then((response) => response.json())
+        .then((response) => {
+            console.log("getUser response", response)
+            setUsername(response.Username);
+            setEmail(response.Email);
+            setPassword(response.Password);
+            setBirthday(response.Birthday);
+            setFavoriteMovies(response.FavoriteMovies)
+        })
     }
+    console.log("userFavMovies", favoriteMovies)
+
+    const favMovies = movies.filter((movie) => favoriteMovies.includes(movie._id));
+
+    console.log("favMovies", favMovies)
+
+    //Filter favorite movies for later display
+    useEffect (() => {
+        const newList = allMovies.filter((movie)=> {
+            const hasMovieId = favoriteMovies.some((m)=> movie._id === m);
+            if (hasMovieId) {
+                return movie
+            }
+        })
+        setFavoriteMovies (newList)
+        getUser(token);
+    }, [])
 
     return (
-        <Card className="bg-light bg-opacity-75 mt-3">
-            <Card.Title className="fw-bold fs-2">Your Favourite Movies</Card.Title>
-            <Card.Body>
-                <Row>
-                    {favouriteMovies.map((movie) => (
-                        <Col className="mb-3" key={movie._id} md={3}>
-                            <MovieCard movie={movie} user={user} />
-                        </Col>
-                    ))}
-                </Row>
-            </Card.Body>
-        </Card>
-    );
+        <>
+        <h3>Favourite Movies:</h3>
+            {favMovies.length === 0 ? 
+                <span>No movies selected</span> : favMovies.map ((movie) => (
+                    <Col className="mb-4" key={movie._id} xs={12} md={6} lg={3}>
+                        <MovieCard movie={movie} />
+                    </Col>
+                ))
+            }
+        </>
+    )
 };

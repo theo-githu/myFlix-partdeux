@@ -1,39 +1,83 @@
 
-import React, { useEffect, useState } from 'react'; 
+import React, { useState } from 'react'; 
 
-import { FavouriteMovies } from './favourite-movies';
-import { UserInfo } from './user-info';
-import { DeleteUser } from './delete-user';
-import { UpdateUser } from './update-user'
-import { Container } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 
-export const ProfileView = ({ user }) => {
-    const storedToken = localStorage.getItem('token');
-    const [token] = useState(storedToken ? storedToken : null);
+export const ProfileView = ({ onLoggedIn }) => {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [birthday, setBirthday] = useState("");
 
-    const [favouriteMovies, setFavouriteMovies] = useState([]);
+    const handleSubmit = (event) => {
+        event.preventDefault();
 
-    const getUser = (token) => {
-        fetch(`https://movieflix-899d9c6c8969.herokuapp.com/users/${user.Username}`, {
-            method: "GET",
-            headers: { Authorization: `Bearer ${token}`},
-        })
-        .then((response) => response.json())
-        .then((response) => {
-            setFavouriteMovies(response.FavouriteMovies);
+        const data ={
+            Username: username,
+            Password: password,
+            Email: email,
+            Birthday: birthday
+        };
+
+        fetch(`https://movieflix-899d9c6c8969.herokuapp.com/users`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: { "Content-Type": "application/json"}
+        }).then((response) => {
+            if (response.ok) {
+                alert("Signup successful");
+                window.location.reload();
+              } else {
+                alert("Signup failed");
+              }
         });
     };
 
-    useEffect(() => {
-        getUser(token);
-    }, []);
-
     return (
-        <Container>
-            <UserInfo token={token} user={user} />
-            <FavouriteMovies favMovies={favouriteMovies} user={user} />
-            <UpdateUser token={token} user={user}/>
-            <DeleteUser token={token} user={user}/>
-        </Container>
+        <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="SignupformUsername">
+                <Form.Label>Username:</Form.Label>
+                <Form.Control
+                    type="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    minLength="5"
+                />
+            </Form.Group>
+    
+            <Form.Group controlId="SignupformPassword">
+                <Form.Label>Password:</Form.Label>
+                <Form.Control
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+            </Form.Group>
+    
+            <Form.Group controlId="SignupformEmail">
+                <Form.Label>Email:</Form.Label>
+                <Form.Control
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+            </Form.Group>
+    
+            <Form.Group controlId="SignupformBirthday">
+                <Form.Label>Birthday:</Form.Label>
+                <Form.Control
+                    type="date"
+                    value={birthday}
+                    onChange={(e) => setBirthday(e.target.value)}
+                    required
+                />
+            </Form.Group>
+            <Button className= "mt-3" variant="primary" type="submit">
+            Sign Up
+            </Button>
+        </Form>
     );
 };

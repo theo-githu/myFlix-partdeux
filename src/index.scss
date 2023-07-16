@@ -1,13 +1,9 @@
 
-$primary: #2183d3;
+$primary: #5b9cd1;
 $secondary: #abffff;
 $color:$primary;
 
-
-
-// @import 'node_modules/bootstrap/scss/bootstrap.scss';
-
-
+@import '~bootstrap/scss/bootstrap.scss';
 
 .my-flix {
   color: $color;

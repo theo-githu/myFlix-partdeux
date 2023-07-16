@@ -113,7 +113,12 @@ export const MainView = () => {
                       <Navigate to="/login" replace />
                      ) : (
                       <Col>
-                        <ProfileView user={user} />
+                        <ProfileView 
+                          user={user} 
+                          // onLoggedOut={onLoggedOut}
+                          setUser={setUser}
+                          token={token}
+                          movies={movies}/>
                       </Col> 
                     )}
                   </>
@@ -131,7 +136,7 @@ export const MainView = () => {
                         <>
                           {movies.map((movie) => (
                             <Col key={movie._id} md={4} className="mb-4">
-                              <MovieCard movie={movie} user={user}/>
+                              <MovieCard movie={movie}/>
                             </Col>
                           ))}   
                         </>
