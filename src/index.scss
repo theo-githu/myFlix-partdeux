@@ -1,8 +1,16 @@
+@import "variables.scss";
+
 //Variables
-$body-bg: #212529;
-$primary: Crimson;
-$secondary: Dimgrey;
-$font-size-base: 0.9rem;
+// .my-flix {
+//   color: $color;
+// }
+
+$color: steelblue;
+
+.bg-main {
+  background-color: #012E40;
+  min-height: 100vh;
+}
 
 //Styling
 
@@ -16,16 +24,6 @@ $font-size-base: 0.9rem;
 
 .mobile, .xs {
   display: none;
-}
-
-.form-input {
-  background-color: whitesmoke;
-  color: whitesmoke;
-}
-
-//search engine
-.hide {
-  display:none
 }
 
 @media all and (max-width: 575px) {

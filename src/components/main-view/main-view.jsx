@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Row, Col } from "react-bootstrap/Row";
+import { Row, Col, Button, Form } from "react-bootstrap/Row";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import { MovieCard } from "../movie-card/movie-card";
@@ -104,7 +104,7 @@ export const MainView = () => {
                                                 movies={movies} 
                                                 user={user}
                                                 token={token}
-                                                // updateUser={updateUser} 
+                                                setUser={setUser}
                                             />
                                         </Col>
                                     )}
@@ -112,7 +112,7 @@ export const MainView = () => {
                             }
                         />
                         <Route
-                            path="/profile/"
+                            path="/profile"
                             element={
                                 <>
                                 {!user ? (
@@ -122,12 +122,13 @@ export const MainView = () => {
                                         <ProfileView 
                                             user={user}
                                             token={token}
+                                            movies={movies}
+                                            setUser={setUser}
                                             onLoggedOut={() => {
                                                 setUser(null);
                                                 setToken(null);
                                                 localStorage.clear();
                                             }}
-                                            // updateUser={updateUser} //newly added   
                                         />
                                     </Col> 
                                 )}

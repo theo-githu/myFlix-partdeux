@@ -7,9 +7,11 @@ import "./index.scss";
 
 const App = () => {
   return (
-    <Container>
-      <MainView />
-    </Container>
+    <div className="bg-main">
+      <Container>
+              <MainView />
+      </Container>
+    </div>
   )
 };
 

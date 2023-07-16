@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 
 
 export const NavigationBar = ({ user, onLoggedOut }) => {
+  // fixed="top" instead of sticky?
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
+      <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
         <Container>
           <Navbar.Brand as={Link} to="/">
             myFlix

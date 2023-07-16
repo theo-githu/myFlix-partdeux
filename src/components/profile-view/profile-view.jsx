@@ -1,25 +1,34 @@
-import { useState } from "react";
-import { Card, Col, Form, Button } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import react from "react";
+import { Button, Col, Row, Form } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
 import { MovieCard } from "../movie-card/movie-card";
+import { ModalHeader } from "react-bootstrap";
 
-export const ProfileView = ({ user, token, movies, onLoggedOut, updateUser }) => {
+
+export const ProfileView = ({ user, token, movies, setUser, onLoggedOut }) => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [birthday, setBirthday] = useState("");
-
-    let favoriteMovies = movies.filter(movie => user.favoriteMovies.includes(movie._id));
+    const [showModal, setShowModal] = useState(false);
+    const favouriteMovies = movies.filter((movie) => {
+        return user.FavoriteMovies.includes(movie._id)
+    });
     
-    const handleSubmit = event => {
+    const handleShowModal = () => setShowModal(true);
+    const handleCloseModal = () => setShowModal(false);
+
+    const handleSubmit = (event) => {
         event.preventDefault();
 
         const data = {
-            username: username,
-            password: password,
-            email: email,
-            birthday: birthday
-        }
+            Username: username,
+            Password: password,
+            Email: email,
+            Birthday: birthday
+        };
 
         fetch(`https://movieflix-899d9c6c8969.herokuapp.com/users/${user.username}`, {
             method: "PUT",
@@ -33,23 +42,20 @@ export const ProfileView = ({ user, token, movies, onLoggedOut, updateUser }) =>
             if (response.ok) {
                 return response.json();
             } else {
-                alert("Changing userdata failed");
-                return false;
+                alert("Changing user data failed");
             }
         })
-        .then(user => {
-            if (user) {
-                alert("Successfully changed userdata");
-                updateUser(user);
-            }
+        .then((data) => {
+            localStorage.setItem("user", JSON.stringify(data));
+            setUser(data);
         })
         .catch(e => {
             alert(e);
         });
     }
 
-    const deleteAccount = () => {
-        console.log("delete account")
+    const handleDeleteUser = () => {
+
         fetch(`https://movieflix-899d9c6c8969.herokuapp.com/users/${user.username}`, {
             method: "DELETE",
             headers: { Authorization: `Bearer ${token}` }
@@ -67,85 +73,83 @@ export const ProfileView = ({ user, token, movies, onLoggedOut, updateUser }) =>
         });
     }
 
-   
+    // let favoriteMovies = movies.filter(movie => user.FavoriteMovies.includes(movie._id));
 
     return (
         <>
-            <Col md={6}>           
-                <Card className="mt-2 mb-3">
-                    <Card.Body>
-                        <Card.Title >Your info</Card.Title>
-                        <p>Username: {user.username}</p>
-                        <p>Email: {user.email}</p>
-                        <p>Birthday: {user.birthday}</p>
-                    </Card.Body>
-                </Card>
-                <Button variant="danger" onClick={() => {
-                    if (confirm("Are you sure?")) {
-                        deleteAccount();
-                    }
-                }}>Delete user account</Button>
+        <h1 className="text-white">Profile</h1>
+        <Row>
+            <Col className="text-white">
+                <h3 className="text-white">Your profile details</h3>
+                <div>Username: {user.Username}</div>
+                <div>Email: {user.Email}</div>
             </Col>
-            <Col md={6}>
-                <Card className="mt-2 mb-3">
-                    <Card.Body>
-                        <Card.Title>Update your info</Card.Title>
-                        <Form onSubmit={handleSubmit}>
-                            <Form.Group>
-                                <Form.Label>Username:</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={username}
-                                    onChange={e => setUsername(e.target.value)}
-                                    required
-                                    className="bg-light"
-                                />
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Password:</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    value={password}
-                                    onChange={e => setPassword(e.target.value)}
-                                    required
-                                    className="bg-light"
-                                />
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Email:</Form.Label>
-                                <Form.Control
-                                    type="email"
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                    required
-                                    className="bg-light"
-                                />
-                            </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Birthday:</Form.Label>
-                                <Form.Control
-                                    type="date"
-                                    value={birthday}
-                                    onChange={e => setBirthday(e.target.value)}
-                                    required
-                                    className="bg-light"
-                                />
-                            </Form.Group>
-                            <Button className="mt-3" variant="primary" type="submit">Submit</Button>
-                        </Form>
-                    </Card.Body>
-                </Card>
+            <Col>
+            <h3 className="text-white">Update your profile information</h3>
+            <Form onSubmit={handleSubmit} className="text-white">
+                <Form.Group controlId="formUsername">
+                    <Form.Label>Username:</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                        minLength="5" 
+                    />
+                </Form.Group>
+                <Form.Group controlId="formPassword">
+                    <Form.Label>Password:</Form.Label>
+                    <Form.Control
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        minLength="5"
+                    />
+                </Form.Group>
+                <Form.Group controlId="formEmail">
+                    <Form.Label>Email:</Form.Label>
+                    <Form.Control
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                </Form.Group>
+                <Form.Group controlId="formBirthday">
+                    <Form.Label>Birthday:</Form.Label>
+                    <Form.Control
+                        type="date"
+                        value={birthday}
+                        onChange={(e) => setBirthday(e.target.value)}
+                        required
+                    />
+                </Form.Group>
+                <Button variant="primary" type="submit">Save changes</Button>
+            </Form>
             </Col>
-            <Col md={12}>
-                <h3 className="mt-3 mb-3 text-light">Your favorite movies:</h3>
-            </Col>
-            {favoriteMovies.map(movie => (
-                <Col className="mb-4" key={movie._id} xl={2} lg={3} md={4} xs={6}>
-                    <MovieCard 
-                        movie={movie}
-                        user={user} />
+        </Row>
+        <Row className="text-white">
+            <h3>Favorite movies:</h3>
+            {favoriteMovies.map((movie) => (
+                <Col className="mb-5" key={movie._id} md={4}>
+                    <MovieCard movie={movie}></MovieCard>
                 </Col>
             ))}
+        </Row>
+        <Button variant="primary" onClick={handleShowModal}>
+            Delete my account
+        </Button>
+        <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal.Header closeButton>
+                <Modal.Title>Delete account</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to delete your account permanantly?</Modal.Body>
+            <Modal.Footer>
+                <Button variant="primary" onClick={handleDeleteUser}>Yes</Button>
+                <Button variant="secondary" onClick={handleCloseModal}>No</Button>
+            </Modal.Footer>
+        </Modal>
         </>
-    );
+    )
 }

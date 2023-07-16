@@ -1,0 +1,29 @@
+img {
+    max-width: 100px;
+  }
+  
+  .card {
+    cursor: pointer;
+  }
+  
+  .card:hover {
+    background-color: #efefef;
+  }
+  
+  .card-title {
+    font-weight: 700 !important;
+  }
+  
+  .card-text {
+    font-size: smaller;
+  }
+  
+  .setFavorite {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  
+  a {
+    text-decoration: none !important;
+  }
