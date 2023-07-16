@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Button, Card, Container, Col } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "./movie-card.scss";
+// import "./movie-card.scss";
 
-export const MovieCard = ({ movie}) => {
+export const MovieCard = ({ movie }) => {
     // const storedToken = localStorage.getItem("token");
     // const [token] = useState(storedToken || null);
 
@@ -66,40 +66,39 @@ export const MovieCard = ({ movie}) => {
     // const myFavourite = favouriteMovies.find((f) => f.Title === movie.Title);
 
     return ( 
-        <Container>
-            <Col>
-                <Card border="light" className="h-100 bg-opacity-75 shadow" bd="dark" text="dark" >
-                    <Card.Img variant="top" src={movie.ImageURL}/>
-                    <Card.Body className="d-flex flex-column">
-                        <Card.Title>{movie.Title}</Card.Title>
-                        {/* <Card.Text className="text-muted">{movie.Description}</Card.Text> */}
-                        <Card.Text>Rating: {movie.Rating}</Card.Text>
-                    </Card.Body>
-                    <Card.Footer className="d-flex flex-row justify-content-between align-items-baseline mt-auto">
-                        <Link to={`/movies/${encodeURIComponent(movie._id)}`} className="text-start">
-                            <Button className="button-primary">Open</Button>
-                        </Link>
-                        {/* {myFavorite ? (
-                            <Button variant="btn-secondary">
-                                <AiFillHeart
-                                    onClick={() => removeFromFavorites(movie._id)}
-                                    color="red"
-                                    fontSize="2em"
-                                />
-                            </Button>
-                        ) : (
-                            <Button variant="btn-secondary">
-                                <AiOutlineHeart
-                                    onClick={() => addToFavorites(movie._id)}
-                                    color="gray"
-                                    fontSize="2em"
-                                />
-                            </Button>
-                        )} */}
-                    </Card.Footer>
-                </Card>
-            </Col>
-        </Container>
+
+                    <Card border="light" className="h-100 bg-opacity-75 shadow" bd="dark" text="dark" >
+                        <Card.Img variant="top" src={movie.ImageURL}/>
+                        <Card.Body className="d-flex flex-column">
+                            <Card.Title>{movie.Title}</Card.Title>
+                            {/* <Card.Text className="text-muted">{movie.Description}</Card.Text> */}
+                            <Card.Text className="text-muted">IMDb Rating: {movie.Rating}</Card.Text>
+                        </Card.Body>
+                        <Card.Footer className="d-flex flex-row justify-content-between align-items-baseline mt-auto">
+                            <Link to={`/movies/${encodeURIComponent(movie._id)}`} className="text-start">
+                                <Button className="button-primary">Open</Button>
+                            </Link>
+                            {/* {myFavorite ? (
+                                <Button variant="btn-secondary">
+                                    <AiFillHeart
+                                        onClick={() => removeFromFavorites(movie._id)}
+                                        color="red"
+                                        fontSize="2em"
+                                    />
+                                </Button>
+                            ) : (
+                                <Button variant="btn-secondary">
+                                    <AiOutlineHeart
+                                        onClick={() => addToFavorites(movie._id)}
+                                        color="gray"
+                                        fontSize="2em"
+                                    />
+                                </Button>
+                            )} */}
+                        </Card.Footer>
+                    </Card>
+            
+
     );
 };
 
